@@ -1,0 +1,63 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  /* Class for the floating placeholder effect */
+  .floating-label-input:focus ~ .floating-label,
+  .floating-label-input:not(:placeholder-shown) ~ .floating-label {
+    @apply -top-2 text-xs font-medium text-emerald-600;
+  }
+}
+
+
+body {
+  background-color:  #EDEDED; /* soft light grey */
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+
+/* Sidebar hover shift */
+.menu-item {
+  transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.menu-item:hover {
+  transform: translateX(6px);
+}
+
+/* Dropdown smooth transition */
+.dropdown-content {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.35s ease;
+}
+
+.dropdown-open {
+  max-height: 500px; /* enough to accommodate dropdown items */
+}
+
+/* 🌿 Dropdown animation */
+.dropdown-wrapper {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.4s ease, opacity 0.3s ease;
+  opacity: 0;
+}
+
+.dropdown-wrapper.open {
+  max-height: 500px; /* Large enough to contain all child items */
+  opacity: 1;
+}
+
+/* 🫧 Optional: smoother menu hover
+.menu-item {
+  transition: transform 0.25s ease, background-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.menu-item:hover {
+  transform: translateX(8px);
+} */
+
+
