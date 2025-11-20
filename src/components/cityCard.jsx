@@ -31,3 +31,31 @@ function CityCard({ city, image, description }) {
 
 export default CityCard;
 
+// import React from "react";
+// import "../styles/index.css";
+
+// function CityCard({ city, image, description }) {
+//   return (
+//     <div className="p-[2px] rounded-2xl bg-gradient-to-r from-emerald-200 via-gray-100 to-gray-300 dark:from-gray-700 dark:via-gray-800 dark:to-gray-900 shadow-lg hover:scale-105 transition duration-300 w-64 shadow-xl">
+//       <div className="bg-white dark:bg-gray-900 rounded-xl overflow-hidden transition-colors duration-300">
+//         <img
+//           src={image}
+//           alt={city}
+//           className="h-40 w-full object-cover rounded-t-xl"
+//         />
+//         <div className="p-4">
+//           <h3 className="text-lg font-semibold text-slate-800 dark:text-gray-100">
+//             {city}
+//           </h3>
+//           <p className="text-sm text-slate-700 dark:text-gray-400">
+//             {description}
+//           </p>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// }
+
+// export default CityCard;
+
+

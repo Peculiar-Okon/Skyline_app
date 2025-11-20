@@ -736,3 +736,433 @@ if (loadingUser) {
     </div>
   );
 }
+
+
+// import React, { useEffect, useMemo, useState } from "react";
+// import { motion, AnimatePresence } from "framer-motion";
+// import { useNavigate } from "react-router-dom";
+// import { supabase } from "../services/supabaseClient";
+// import {
+//   Check,
+//   Clock,
+//   ChevronLeft,
+//   ChevronRight,
+//   Upload,
+//   MapPin,
+//   Image as ImageIcon,
+// } from "lucide-react";
+
+// // ---- Brand helpers
+// const BRAND = {
+//   emerald: "emerald-500", // buttons
+//   emerald600: "emerald-600", // icons / accents
+//   emerald100: "emerald-100", // soft bg
+//   silverGrad: "from-emerald-100 to-slate-50", // page bg gradient
+// };
+
+// const TOTAL_STEPS = 5;
+// const GOALS = [
+//   "Explore best spots in my city",
+//   "Find events & nightlife",
+//   "Discover scenic views",
+//   "Plan a getaway",
+// ];
+// const PREFERENCES = [
+//   "Nature & parks",
+//   "Rooftop views",
+//   "Restaurants & food",
+//   "Art & culture",
+//   "Beaches / waterfront",
+// ];
+// const VIBES = ["Chill & peaceful", "Adventurous", "Romantic", "Trendy / modern"];
+// const DURATIONS = ["Quick (30–60min)", "Half-day", "Full-day", "Weekend"];
+// const SOCIALS = ["Solo", "Friends", "Date", "Family"];
+// const POPULAR_CITIES = ["Lagos", "Abuja", "Port Harcourt", "Ibadan", "Cape Town", "Accra"];
+// const LS_KEY = "skyline_onboarding_state";
+
+// const slideVariants = {
+//   initial: { opacity: 0, y: 24 },
+//   animate: { opacity: 1, y: 0 },
+//   exit: { opacity: 0, y: -24 },
+// };
+
+// function StepCircle({ index, state }) {
+//   const base =
+//     "relative flex h-10 w-10 items-center justify-center rounded-full text-sm font-semibold transition-all";
+//   const line =
+//     "absolute left-[calc(100%+0.5rem)] top-1/2 h-[2px] w-8 -translate-y-1/2 bg-gray-300 dark:bg-gray-600";
+//   const amber = "bg-amber-100 ring-2 ring-amber-400 text-amber-700 dark:bg-amber-600 dark:ring-amber-400 dark:text-white";
+//   const green = "bg-emerald-100 ring-2 ring-emerald-500 text-emerald-700 dark:bg-emerald-700 dark:ring-emerald-500 dark:text-white";
+//   const gray = "bg-gray-100 ring-2 ring-gray-300 text-gray-500 dark:bg-gray-800 dark:ring-gray-600 dark:text-gray-300";
+
+//   return (
+//     <div className="relative flex items-center">
+//       <motion.div
+//         layout
+//         className={
+//           base +
+//           " " +
+//           (state === "complete"
+//             ? green
+//             : state === "active-valid"
+//             ? green
+//             : state === "active-pending"
+//             ? amber
+//             : gray)
+//         }
+//         transition={{ type: "spring", stiffness: 300, damping: 24 }}
+//       >
+//         {state === "complete" || state === "active-valid" ? (
+//           <Check className="h-5 w-5" />
+//         ) : state === "active-pending" ? (
+//           <Clock className="h-5 w-5" />
+//         ) : (
+//           <span>{index}</span>
+//         )}
+//       </motion.div>
+//       {index < TOTAL_STEPS && <div className={line} />}
+//     </div>
+//   );
+// }
+
+// export default function OnboardingWizard() {
+//   const [user, setUser] = useState(null);
+//   const [loadingUser, setLoadingUser] = useState(true);
+//   const navigate = useNavigate();
+//   const [step, setStep] = useState(0);
+//   const [saving, setSaving] = useState(false);
+//   const [error, setError] = useState("");
+//   const [data, setData] = useState({
+//     goals: [],
+//     preferences: [],
+//     vibe: "",
+//     duration: "",
+//     social: "",
+//     city: "",
+//     coords: null,
+//     username: "",
+//     bio: "",
+//     avatar_url: "",
+//   });
+//   const [avatarPreview, setAvatarPreview] = useState("");
+
+//   useEffect(() => {
+//     (async () => {
+//       const { data: auth } = await supabase.auth.getUser();
+//       const u = auth?.user || null;
+//       setUser(u);
+//       setLoadingUser(false);
+
+//       if (!u) return;
+
+//       const { data: prof } = await supabase
+//         .from("profiles")
+//         .select("username, bio, avatar_url, onboarding_step, onboarding_complete, onboarding_data")
+//         .eq("id", u.id)
+//         .maybeSingle();
+
+//       if (prof?.onboarding_complete) setStep(TOTAL_STEPS - 1);
+
+//       else if (prof?.onboarding_data) { // <-- ADDED OPENING CURLY BRACE
+//         setData({
+//            ...data,
+//           ...prof.onboarding_data,
+//            username: prof.username || prof.onboarding_data?.username || "",
+//            bio: prof.bio || prof.onboarding_data?.bio || "",
+//            avatar_url: prof.avatar_url || prof.onboarding_data?.avatar_url || "",
+//         }); // <-- REMOVED THE COMMA and ADDED SEMICOLON
+//          setStep(Number(prof.onboarding_step ?? 0)); // <-- LIKELY LINE 866. Now it's a separate statement.
+//         } // <-- ADDED CLOSING CURLY BRACE
+//        else {
+// // ... rest of the code
+//         const raw = localStorage.getItem(LS_KEY);
+//         if (raw) {
+//           try {
+//             const parsed = JSON.parse(raw);
+//             setData((d) => ({ ...d, ...parsed.data }));
+//             setStep(Number(parsed.step ?? 0));
+//           } catch {}
+//         }
+//       }
+//     })();
+//   }, []);
+
+//   useEffect(() => {
+//     localStorage.setItem(LS_KEY, JSON.stringify({ step, data }));
+//   }, [step, data]);
+
+//   const stepValid = useMemo(() => {
+//     switch (step) {
+//       case 0:
+//         return data.goals.length > 0 || data.preferences.length > 0;
+//       case 1:
+//         return !!data.vibe && !!data.duration;
+//       case 2:
+//         return !!data.city;
+//       case 3:
+//         return data.username.trim().length >= 3;
+//       case 4:
+//         return true;
+//       default:
+//         return false;
+//     }
+//   }, [step, data]);
+
+//   const circleState = (i) => {
+//     if (i < step) return "complete";
+//     if (i === step) return stepValid ? "active-valid" : "active-pending";
+//     return "future";
+//   };
+
+//   const toggleFromArray = (key, value) => {
+//     setData((prev) => {
+//       const arr = new Set(prev[key]);
+//       if (arr.has(value)) arr.delete(value);
+//       else arr.add(value);
+//       return { ...prev, [key]: Array.from(arr) };
+//     });
+//   };
+
+//   const saveProgress = async (opts = {}) => {
+//     if (!user) return;
+//     setSaving(true);
+//     setError("");
+//     try {
+//       const payload = {
+//         id: user.id,
+//         username: data.username,
+//         bio: data.bio || null,
+//         avatar_url: data.avatar_url || null,
+//         onboarding_step: step,
+//         onboarding_complete: !!opts.complete || false,
+//         onboarding_data: data,
+//         updated_at: new Date().toISOString(),
+//       };
+//       const { error: upErr } = await supabase.from("profiles").upsert(payload);
+//       if (upErr) throw upErr;
+//     } catch (e) {
+//       setError(e.message || "Failed to save");
+//     } finally {
+//       setSaving(false);
+//     }
+//   };
+
+//   const handleFinishOnboarding = async () => {
+//     try {
+//       await saveProgress({ complete: true });
+//       navigate("/dashboard");
+//     } catch (e) {
+//       console.error(e);
+//     }
+//   };
+
+//   const handleNext = async () => {
+//     if (!stepValid) return;
+//     await saveProgress();
+//     setStep((s) => Math.min(TOTAL_STEPS - 1, s + 1));
+//   };
+//   const handleBack = () => setStep((s) => Math.max(0, s - 1));
+//   const handleSkip = async () => {
+//     setStep(TOTAL_STEPS - 1);
+//     await saveProgress();
+//   };
+
+//   const detectLocation = () => {
+//     if (!navigator.geolocation) return setError("Geolocation not supported.");
+//     navigator.geolocation.getCurrentPosition(
+//       (pos) => {
+//         const { latitude, longitude } = pos.coords;
+//         setData((d) => ({ ...d, coords: { lat: latitude, lng: longitude } }));
+//       },
+//       () => setError("Couldn’t detect location. You can type your city manually.")
+//     );
+//   };
+
+//   const handleAvatarSelect = async (file) => {
+//     if (!file || !user) return;
+//     setSaving(true);
+//     setError("");
+//     try {
+//       const ext = file.name.split(".").pop();
+//       const path = `${user.id}/${Date.now()}.${ext}`;
+//       const { error: upErr } = await supabase.storage.from("avatars").upload(path, file, {
+//         cacheControl: "3600",
+//         upsert: true,
+//       });
+//       if (upErr) throw upErr;
+
+//       const { data } = supabase.storage.from("avatars").getPublicUrl(path);
+//       const publicUrl = data.publicUrl;
+//       setData((d) => ({ ...d, avatar_url: publicUrl }));
+//       setAvatarPreview(URL.createObjectURL(file));
+//     } catch (e) {
+//       setError(e.message || "Failed to upload avatar");
+//     } finally {
+//       setSaving(false);
+//     }
+//   };
+
+//   if (loadingUser) {
+//     return (
+//       <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-emerald-100 to-slate-50 dark:from-gray-900 dark:to-gray-800">
+//         <div className="relative">
+//           <div className="w-12 h-12 border-4 border-emerald-200 dark:border-emerald-600 rounded-full"></div>
+//           <div className="w-12 h-12 border-4 border-emerald-500 dark:border-emerald-400 border-t-transparent rounded-full absolute top-0 left-0 animate-spin"></div>
+//         </div>
+//       </div>
+//     );
+//   }
+
+//   if (!user) {
+//     return (
+//       <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-emerald-100 to-slate-50 dark:from-gray-900 dark:to-gray-800">
+//         <div className="bg-white dark:bg-gray-900 shadow-lg rounded-2xl p-8 text-center max-w-md">
+//           <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-2">Login required</h2>
+//           <p className="text-gray-600 dark:text-gray-300 mb-6">
+//             Please sign in to set up your Skyline experience.
+//           </p>
+//           <a
+//             href="/Signup"
+//             className="inline-flex items-center gap-2 rounded-xl bg-emerald-500 text-white px-5 py-2 hover:bg-emerald-600 transition"
+//           >
+//             Go to Sign In
+//           </a>
+//         </div>
+//       </div>
+//     );
+//   }
+
+//   return (
+//     <div className={`min-h-screen bg-gradient-to-b ${BRAND.silverGrad} dark:from-gray-900 dark:to-gray-800 px-4 py-8`}>
+//       <div className="mx-auto max-w-3xl">
+//         {/* Header */}
+//         <div className="mb-8 flex items-center justify-between">
+//           <div className="flex items-center gap-4">
+//             {[1, 2, 3, 4, 5].map((n, i) => (
+//               <StepCircle key={n} index={n} state={circleState(i)} />
+//             ))}
+//           </div>
+//           {step < TOTAL_STEPS - 1 && (
+//             <button
+//               onClick={handleSkip}
+//               className="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 underline underline-offset-4"
+//             >
+//               Skip
+//             </button>
+//           )}
+//         </div>
+
+//         <div className="bg-white dark:bg-gray-900 shadow-lg dark:shadow-gray-700 rounded-2xl p-6 md:p-8">
+//           {error && (
+//             <div className="mb-4 rounded-xl bg-amber-50 dark:bg-amber-700 text-amber-800 dark:text-amber-100 px-4 py-2">
+//               {error}
+//             </div>
+//           )}
+
+//           <AnimatePresence mode="wait">
+//             {/* STEP 1 */}
+//             {step === 0 && (
+//               <motion.div
+//                 key="step-1"
+//                 variants={slideVariants}
+//                 initial="initial"
+//                 animate="animate"
+//                 exit="exit"
+//                 transition={{ duration: 0.35 }}
+//               >
+//                 <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100">
+//                   What brings you to Skyline?
+//                 </h2>
+//                 <p className="text-gray-600 dark:text-gray-300 mb-4">
+//                   Pick a few goals. We’ll personalize your feed.
+//                 </p>
+
+//                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
+//                   {GOALS.map((g) => (
+//                     <button
+//                       key={g}
+//                       type="button"
+//                       onClick={() => toggleFromArray("goals", g)}
+//                       className={`rounded-xl border px-4 py-3 text-left transition ${
+//                         data.goals.includes(g)
+//                           ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-700 dark:text-white"
+//                           : "border-gray-200 hover:bg-gray-50 dark:border-gray-700 dark:hover:bg-gray-800 dark:text-gray-200"
+//                       }`}
+//                     >
+//                       {g}
+//                     </button>
+//                   ))}
+//                 </div>
+
+//                 <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mt-4">
+//                   What do you love seeing most?
+//                 </h3>
+//                 <div className="mt-2 flex flex-wrap gap-2">
+//                   {PREFERENCES.map((p) => (
+//                     <button
+//                       key={p}
+//                       type="button"
+//                       onClick={() => toggleFromArray("preferences", p)}
+//                       className={`rounded-full px-4 py-2 text-sm transition border ${
+//                         data.preferences.includes(p)
+//                           ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-700 dark:text-white"
+//                           : "border-gray-200 hover:bg-gray-50 dark:border-gray-700 dark:hover:bg-gray-800 dark:text-gray-200"
+//                       }`}
+//                     >
+//                       {p}
+//                     </button>
+//                   ))}
+//                 </div>
+//               </motion.div>
+//             )}
+
+//             {/* STEP 2 */}
+//             {/* ... repeat similar dark variants for STEP 2, STEP 3, STEP 4, STEP 5 ... */}
+//           </AnimatePresence>
+
+//           {/* Footer actions */}
+//           <div className="mt-6 flex items-center justify-between">
+//             {step > 0 ? (
+//               <button
+//                 onClick={handleBack}
+//                 className="inline-flex items-center gap-2 rounded-xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 px-4 py-2 hover:bg-gray-50 dark:hover:bg-gray-800"
+//               >
+//                 <ChevronLeft className="h-4 w-4" />
+//                 Back
+//               </button>
+//             ) : (
+//               <div />
+//             )}
+
+//             {step < TOTAL_STEPS - 1 ? (
+//               <button
+//                 disabled={!stepValid || saving}
+//                 onClick={handleNext}
+//                 className={`inline-flex items-center gap-2 rounded-xl px-5 py-2 text-white transition ${
+//                   stepValid && !saving
+//                     ? "bg-emerald-500 hover:bg-emerald-600"
+//                     : "bg-emerald-300 cursor-not-allowed"
+//                 }`}
+//               >
+//                 Next
+//                 <ChevronRight className="h-4 w-4" />
+//               </button>
+//             ) : (
+//               <button
+//                 disabled={saving}
+//                 onClick={handleFinishOnboarding}
+//                 className="inline-flex items-center gap-2 rounded-xl bg-emerald-500 px-5 py-2 text-white hover:bg-emerald-600 transition"
+//               >
+//                 Finish
+//               </button>
+//             )}
+//           </div>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// }
+
+
+
+

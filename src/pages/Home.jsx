@@ -222,6 +222,172 @@ export default function Home(){
 };
 
 
+// import React from "react";
+// import '../styles/index.css';
+// import Navbar from "../components/Navbar";
+// import bg from '../assets/rohit-tandon-qK6898jepEU-unsplash.jpg';
+// import { MapPin, CalendarDays, Gem, Compass, Twitter, Instagram, Facebook } from "lucide-react";
+// import CityCard from "../components/cityCard.jsx";
+// import lagosImg from "../assets/chromatograph-AKG-c-oDLvU-unsplash.jpg";
+// import abujaImg from "../assets/emmanuel-ikwuegbu-zsR1K2ZeZsI-unsplash.jpg";
+// import capeTownImg from "../assets/kyle-lakey-6ycah-J0X6A-unsplash.jpg";
+// import { Link } from "react-router-dom";
+
+// function HeroSection() {
+//   return (
+//     <>
+//       <Navbar />
+//       <div
+//         className="relative w-full h-[90vh] bg-cover bg-center bg-no-repeat"
+//         style={{ backgroundImage: `url(${bg})` }}
+//       >
+//         {/* Overlay gradient */}
+//         <div className="absolute inset-0 bg-gradient-to-r from-emerald-100/80 to-slate-100/50 dark:from-[#0B1210]/90 dark:to-[#1A1A1A]/70" />
+
+//         <div className="relative z-10 text-center py-24">
+//           <h1 className="text-5xl mt-24 font-bold text-gray-800 dark:text-white">
+//             Discover Your City’s Hidden Gems
+//           </h1>
+//           <p className="text-2xl mt-8 text-gray-700 dark:text-gray-300">
+//             Explore top locations, scenic views, and more.
+//           </p>
+//           <Link to="/Signup">
+//             <button className="mt-8 bg-emerald-500 dark:bg-emerald-600 hover:bg-emerald-600 dark:hover:bg-[#32FCA9] text-white px-6 py-2 rounded-xl shadow-md transition-all">
+//               Explore Now
+//             </button>
+//           </Link>
+//         </div>
+//       </div>
+
+//       <section className="py-16 bg-gradient-to-b from-emerald-100 to-slate-50 dark:from-[#0B1210] dark:to-[#1A1A1A] pt-20 transition-colors duration-500">
+//         <div className="max-w-6xl mx-auto px-6 grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+//           {/* Card Template */}
+//           {[
+//             { icon: MapPin, title: "Explore Your City", text: "Find hidden gems, local favorites, and must-see spots around you." },
+//             { icon: Gem, title: "Find Local Gems", text: "Discover restaurants, hangouts and parks near you or afar." },
+//             { icon: CalendarDays, title: "Events Near You", text: "Stay in the loop with upcoming happenings, events and/or festivals." },
+//             { icon: Compass, title: "Navigate Easily", text: "Use interactive maps and directions to reach spots without stress." },
+//           ].map(({ icon: Icon, title, text }, i) => (
+//             <div key={i} className="p-[2px] rounded-2xl bg-gradient-to-r from-emerald-200 via-gray-100 to-gray-300 dark:from-emerald-700 dark:via-[#1A1A1A] dark:to-slate-700 shadow-lg">
+//               <div className="bg-white dark:bg-[#121212] p-6 rounded-[inherit]">
+//                 <div className="bg-emerald-100 dark:bg-emerald-900 w-12 h-12 flex items-center justify-center rounded-full mb-4">
+//                   <Icon className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
+//                 </div>
+//                 <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-2">{title}</h3>
+//                 <p className="text-gray-600 dark:text-gray-400">{text}</p>
+//               </div>
+//             </div>
+//           ))}
+//         </div>
+//       </section>
+//     </>
+//   );
+// }
+
+// function PopularCities() {
+//   const cities = [
+//     { city: "Lagos", image: lagosImg, description: "Beaches, nightlife, food & energy" },
+//     { city: "Abuja", image: abujaImg, description: "Modern markets, art, architecture" },
+//     { city: "Cape Town", image: capeTownImg, description: "Mountains, oceans, colorful scenes" },
+//   ];
+
+//   return (
+//     <section className="py-16 px-4 md:px-16 bg-gray-50 dark:bg-[#0B1210] transition-colors duration-500">
+//       <h2 className="text-3xl font-bold text-center text-slate-800 dark:text-white mb-10">
+//         Popular Cities to Explore
+//       </h2>
+//       <div className="flex flex-wrap justify-center gap-8">
+//         {cities.map((c, i) => (
+//           <CityCard key={i} {...c} />
+//         ))}
+//       </div>
+//     </section>
+//   );
+// }
+
+// function Action() {
+//   return (
+//     <section className="bg-white dark:bg-[#121212] py-16 px-6 transition-colors duration-500">
+//       <div className="max-w-6xl mx-auto text-center">
+//         <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-[#00A86B] to-[#C0C0C0] text-transparent bg-clip-text">
+//           Ready to Explore Your City Like Never Before?
+//         </h2>
+//         <p className="text-gray-700 dark:text-gray-400 text-lg md:text-xl mb-8">
+//           Discover hidden gems, events, and experiences waiting for you.
+//         </p>
+//         <div className="flex justify-center gap-4">
+//           <Link to="/onboarding">
+//             <button className="bg-white dark:bg-emerald-600 text-[#00A86B] dark:text-white font-semibold px-6 py-3 rounded-xl shadow-md hover:bg-gray-100 dark:hover:bg-[#32FCA9] transition-all">
+//               Get Started
+//             </button>
+//           </Link>
+
+//           <Link to="/forgotPswd">
+//             <button className="border border-emerald-500 font-semibold px-6 py-3 rounded-xl text-[#00A86B] dark:text-emerald-400 shadow-md hover:bg-gray-200 dark:hover:bg-[#1A1A1A] transition-all">
+//               Learn More
+//             </button>
+//           </Link>
+//         </div>
+//       </div>
+//     </section>
+//   );
+// }
+
+// function Footer() {
+//   return (
+//     <footer className="bg-white dark:bg-[#0B1210] text-gray-600 dark:text-gray-400 py-10 px-6 border-t border-gray-200 dark:border-gray-800 transition-colors duration-500">
+//       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+//         {/* Brand */}
+//         <div className="shadow-md dark:shadow-none rounded-lg p-4">
+//           <h3 className="text-2xl font-bold text-[#00A86B] dark:text-emerald-400 mb-2">Skyline</h3>
+//           <p className="text-sm">
+//             Discover the beauty of your city. Find top locations, scenic views, and hidden gems — all in one place.
+//           </p>
+//         </div>
+
+//         {/* Links */}
+//         <div className="flex flex-col gap-2 shadow-md dark:shadow-none rounded-lg p-4">
+//           <h4 className="font-semibold text-gray-800 dark:text-white mb-2">Quick Links</h4>
+//           <a href="#" className="hover:text-[#00A86B] dark:hover:text-emerald-400 transition">Explore</a>
+//           <a href="#" className="hover:text-[#00A86B] dark:hover:text-emerald-400 transition">Events</a>
+//           <a href="#" className="hover:text-[#00A86B] dark:hover:text-emerald-400 transition">About</a>
+//           <a href="#" className="hover:text-[#00A86B] dark:hover:text-emerald-400 transition">Contact</a>
+//         </div>
+
+//         {/* Socials */}
+//         <div className="shadow-md dark:shadow-none rounded-lg p-4">
+//           <h4 className="font-semibold text-gray-800 dark:text-white mb-2">Follow Us</h4>
+//           <div className="flex gap-4">
+//             {[Twitter, Instagram, Facebook].map((Icon, i) => (
+//               <a key={i} href="#" className="text-gray-600 dark:text-gray-400 hover:text-[#00A86B] dark:hover:text-emerald-400 transition">
+//                 <Icon className="w-5 h-5" />
+//               </a>
+//             ))}
+//           </div>
+//         </div>
+//       </div>
+
+//       {/* Bottom bar */}
+//       <div className="text-center text-xs text-gray-400 dark:text-gray-500 mt-8">
+//         &copy; {new Date().getFullYear()} Skyline. All rights reserved.
+//       </div>
+//     </footer>
+//   );
+// }
+
+// export default function Home() {
+//   return (
+//     <div className="bg-white dark:bg-[#0B1210] transition-colors duration-500">
+//       <HeroSection />
+//       <PopularCities />
+//       <Action />
+//       <Footer />
+//     </div>
+//   );
+// }
+
+
+
 
 // import React from "react";
 // import '../styles/index.css';

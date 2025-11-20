@@ -28,7 +28,7 @@ function DashboardLayout() {
       <Sidebar />
 
       {/* Main content area */}
-      <div className="flex-1 p-6 overflow-y-auto">
+      <div className="flex-1">
         <Outlet /> {/* Active page renders here */}
       </div>
     </div>

@@ -279,8 +279,8 @@ export default function Sidebar() {
 
       {/* Nav Section */}
       <nav className="mt-4 flex-1 overflow-y-auto px-2 space-y-2">
-        <MenuItem icon={<Home size={20} />} label="Overview" to="/overview" collapsed={collapsed} />
-        <MenuItem icon={<Compass size={20} />} label="Explore" to="/explore" collapsed={collapsed} />
+        <MenuItem icon={<Home size={20} />} label="Overview" to="/DashboardLayout/overview" collapsed={collapsed} />
+        <MenuItem icon={<Compass size={20} />} label="Explore" to="/DashboardLayout/Explore" collapsed={collapsed} />
         <MenuItem icon={<CalendarDays size={20} />} label="Events" to="/events" collapsed={collapsed} />
         <MenuItem icon={<MapPin size={20} />} label="Map View" to="/map" collapsed={collapsed} />
 

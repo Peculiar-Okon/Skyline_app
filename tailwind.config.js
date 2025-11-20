@@ -15,6 +15,13 @@ module.exports = {
         lightBg: '#F9FAFB',
         jade: '#00A86B',     // Jade green
         silver: '#C0C0C0',   // Clean silver (adjust for dark mode if needed)
+
+        'skyline-primary-bg': '#0B1210',
+        'skyline-secondary-bg': '#121212',
+        'skyline-accent-glow': '#32FCA9', // light emerald
+        'skyline-muted-accent': '#1A1A1A', // Using the dark gray option for backgrounds/input
+        'skyline-text-main': '#E5E5E5',
+        'skyline-text-muted': '#9CA3AF',
       },
       fontFamily: {
         sans: ['Inter', 'sans-serif'],
