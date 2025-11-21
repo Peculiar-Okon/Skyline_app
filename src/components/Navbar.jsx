@@ -62,10 +62,10 @@ function Navbar (){
             {/* Mobile Nav Links */}
       {isOpen && (
         <div className="md:hidden px-4 pb-4 bg-white shadow-md">
-          <a href="#" className="block py-2 text-gray-700 hover:text-jade">Home</a>
-          <a href="#" className="block py-2 text-gray-700 hover:text-jade">Explore</a>
-          <a href="#" className="block py-2 text-gray-700 hover:text-jade">Events</a>
-          <a href="#" className="block py-2 text-gray-700 hover:text-jade">About</a>
+          <Link to= "/" className="block py-2 text-gray-700 hover:text-jade">Home</Link>
+          <Link to= "/Signup" className="block py-2 text-gray-700 hover:text-jade">Sign Up</Link>
+          <Link to= "/Login" className="block py-2 text-gray-700 hover:text-jade">Log In</Link>
+          <Link to= "/About" className="block py-2 text-gray-700 hover:text-jade">About</Link>
         </div>
       )}
 
