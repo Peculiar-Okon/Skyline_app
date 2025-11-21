@@ -242,7 +242,7 @@ export default function OnboardingWizard() {
   const handleFinishOnboarding = async () => {
   try {
     await saveProgress({ complete: true });  // ✅ marks onboarding as done
-    navigate("/dashboard");                  // 🚀 send them to dashboard
+    navigate("/DashboardLayout");                  // 🚀 send them to dashboard
   } catch (e) {
     console.error(e);
   }

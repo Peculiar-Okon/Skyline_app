@@ -60,6 +60,7 @@ import ResetPassword from "./auth/resetpswd";
 import DashboardLayout from "./Layouts/DashboardLayout";
 import Overview from "./pages/overview";
 import Explore from "./pages/Explore";
+import About from "./pages/About";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
@@ -75,6 +76,8 @@ function App() {
         <Route path="/forgotPswd" element={<ForgotPassword />} />
         <Route path="/verifyOTP" element={<VerifyOTP />} />
         <Route path="/resetpswd" element={<ResetPassword />} />
+        <Route path="/About" element={<About />} />
+
 
         {/* Dashboard Routes */}
         <Route path="/DashboardLayout" element={<DashboardLayout />}>

@@ -3,6 +3,7 @@ import '../styles/index.css';
 import ThemeToggle from "./themeToggle";
 import { useState } from 'react';
 import { HiMenu, HiX } from 'react-icons/hi';
+import { Link } from "react-router-dom";
 
 function Navbar (){
     const [isOpen, setIsOpen] = useState(false);
@@ -38,9 +39,9 @@ function Navbar (){
         {/* Nav Links */}
         <div className="hidden md:flex space-x-8">
           
-          <a href="#" className="text-silver-700 hover:text-jade transform transition-transform duration-300 hover:scale-105">Sign-up</a>
-          <a href="#" className="text-silver-700 hover:text-jade transform transition-transform duration-300 hover:scale-105">Log-in</a>
-          <a href="#" className="text-silver-700 hover:text-jade transform transition-transform duration-300 hover:scale-105">About</a>
+          <Link to="/Signup" className="text-silver-700 hover:text-jade transform transition-transform duration-300 hover:scale-105">Sign-up</Link>
+          <Link to="/Login" className="text-silver-700 hover:text-jade transform transition-transform duration-300 hover:scale-105">Log-in</Link>
+          <Link to="/About" className="text-silver-700 hover:text-jade transform transition-transform duration-300 hover:scale-105">About</Link>
         </div>
 
         
