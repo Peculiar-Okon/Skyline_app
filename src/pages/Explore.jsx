@@ -81,7 +81,7 @@ export default function Explore() {
       {/* PAGE TITLE */}
       <div className="text-center mt-10">
         <h1 className="text-3xl font-bold text-gray-800">
-          Discover All Spots & Events Around You 🌆
+          Discover All Spots & Events Around You 
         </h1>
       </div>
 
