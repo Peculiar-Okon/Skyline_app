@@ -4,6 +4,7 @@ import { supabase } from "../Lib/Supabase";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { useRef } from "react";
+import { useProfile } from "../Context/profileContext";
 const TOTAL_STEPS = 6;
 
 const LOCAL_STORAGE_KEY = "skyline_onboarding";
@@ -24,9 +25,13 @@ export interface OnboardingData {
 
   social: string;
 
-  city: string;
+  location: {
+    country: string;
+    state: string;
+    city: string;
+    district: string;
+    suburb: string;
 
-      coords: {
     lat: number;
     lng: number;
   } | null;
@@ -51,9 +56,7 @@ const defaultData: OnboardingData = {
 
   social: "",
 
-  city: "",
-
-  coords: null,
+  location: null,
 
   username: "",
 
@@ -99,9 +102,6 @@ const [usernameAvailable, setUsernameAvailable] =
 
 const [usernameSuggestions, setUsernameSuggestions] =
   useState<string[]>([]);
-
-//   const usernameTimeout =
-//   useRef<NodeJS.Timeout | null>(null);
 
 const debounceRef =
   useRef<ReturnType<typeof setTimeout> | null>(
@@ -173,9 +173,8 @@ const debounceRef =
             profile.bio ??
             "",
 
-          avatarUrl:
-            profile.avatar_url ??
-            "",
+          avatar_url:
+            profile.avatar_url ?? "",
         });
       } else {
         restoreFromLocalStorage();
@@ -250,42 +249,6 @@ useEffect(() => {
 
   const stepValid =
     useMemo(() => {
-    //   switch (step) {
-    //     case 0:
-    //       return true;
-
-    //     case 1:
-    //       return (
-    //         data.goals.length >
-    //           0 ||
-    //         data.interests
-    //           .length > 0
-    //       );
-
-    //     case 2:
-    //       return (
-    //         !!data.vibe &&
-    //         !!data.duration
-    //       );
-
-    //     case 3:
-    //       return (
-    //         data.city.trim()
-    //           .length > 0
-    //       );
-
-    //     case 4:
-    //       return (
-    //         data.username.trim()
-    //           .length >= 3
-    //       );
-
-    //     case 5:
-    //       return true;
-
-    //     default:
-    //       return false;
-    //   }
 
     switch (step) {
   case 0:
@@ -310,16 +273,14 @@ useEffect(() => {
 
   case 4:
     // Location
-    return data.city.trim().length > 0;
+    return (
+      data.location !== null &&
+      data.location.city.length > 0
+    );
 
   case 5:
     // Profile
     return true;
-    // return (
-    //   data.username.trim().length >= 1 &&
-    //   data.fullName.trim().length > 0 &&
-    //   usernameAvailable === true
-    // );
 
   case 6:
     // Review
@@ -354,23 +315,6 @@ useEffect(() => {
   const skipOnboarding = () => {
     setStep(6);
   };
-
-  // ============================
-  // Goals
-  // ============================
-
-//   const toggleGoal = (
-//     goal: string
-//   ) => {
-//     setData((prev) => ({
-//       ...prev,
-//       goals: prev.goals.includes(goal)
-//         ? prev.goals.filter(
-//             (g) => g !== goal
-//           )
-//         : [...prev.goals, goal],
-//     }));
-//   };
 
   // ============================
   // Interests
@@ -427,55 +371,15 @@ useEffect(() => {
     }));
   };
 
-  // ============================
-  // Location
-  // ============================
 
-  const setCity = (
-    city: string
-  ) => {
-    setData((prev) => ({
-      ...prev,
-      city,
-    }));
-  };
-
-//   const detectLocation =
-//     () => {
-//       if (
-//         !navigator.geolocation
-//       ) {
-//         setError(
-//           "Your browser doesn't support location."
-//         );
-
-//         return;
-//       }
-
-//       navigator.geolocation.getCurrentPosition(
-//         (position) => {
-//           setData((prev) => ({
-//             ...prev,
-
-//             coordinates: {
-//               latitude:
-//                 position.coords
-//                   .latitude,
-
-//               longitude:
-//                 position.coords
-//                   .longitude,
-//             },
-//           }));
-//         },
-
-//         () => {
-//           setError(
-//             "Unable to detect your location."
-//           );
-//         }
-//       );
-//     };
+  const setLocation = (
+  location: OnboardingData["location"]
+) => {
+  setData((prev) => ({
+    ...prev,
+    location,
+  }));
+};
 
 const detectLocation = () => {
   if (!navigator.geolocation) return;
@@ -492,18 +396,36 @@ const detectLocation = () => {
           `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}`
         );
 
-        const location = await response.json();
+        const data = await response.json();
 
-        const city =
-          location.address.city ||
-          location.address.town ||
-          location.address.village ||
-          location.address.state ||
-          "";
+        const address = data.address;
 
         updateData({
-          city,
-          coords: {
+          location: {
+            country: address.country ?? "",
+
+            state:
+              address.state ||
+              address.region ||
+              "",
+
+            city:
+              address.city ||
+              address.town ||
+              address.village ||
+              address.county ||
+              "",
+
+            district:
+              address.city_district ||
+              address.district ||
+              "",
+
+            suburb:
+              address.suburb ||
+              address.neighbourhood ||
+              "",
+
             lat,
             lng,
           },
@@ -608,107 +530,9 @@ const uploadAvatar = async (file: File) => {
   }
 };
 
-//   const uploadAvatar =
-//   async (
-//     file: File
-//   ) => {
-//     if (
-//       !user ||
-//       !file
-//     )
-//       return;
 
-//     const path = `${user.id}/${Date.now()}-${
-//       file.name
-//     }`;
-
-//     const { error } =
-//       await supabase.storage
-//         .from("avatars")
-//         .upload(path, file, {
-//           upsert: true,
-//         });
-
-//     if (error) {
-//       toast.error(
-//         error.message
-//       );
-
-//       return;
-//     }
-
-//     const { data: url } =
-//       supabase.storage
-//         .from("avatars")
-//         .getPublicUrl(path);
-
-//     updateData({
-//       avatar_url:
-//         url.publicUrl,
-//     });
-// };
-
-//   const uploadAvatar =
-//     async (
-//       file: File
-//     ) => {
-//       if (
-//         !file ||
-//         !userId
-//       )
-//         return;
-
-//       try {
-//         setSaving(true);
-
-//         const extension =
-//           file.name.split(".").pop();
-
-//         const fileName = `${userId}/${Date.now()}.${extension}`;
-
-//         const {
-//           error: uploadError,
-//         } =
-//           await supabase.storage
-//             .from("avatars")
-//             .upload(
-//               fileName,
-//               file,
-//               {
-//                 upsert: true,
-//               }
-//             );
-
-//         if (
-//           uploadError
-//         )
-//           throw uploadError;
-
-//         const {
-//           data: publicUrl,
-//         } =
-//           supabase.storage
-//             .from("avatars")
-//             .getPublicUrl(
-//               fileName
-//             );
-
-//         setData((prev) => ({
-//           ...prev,
-
-//           avatarUrl:
-//             publicUrl.publicUrl,
-//         }));
-//       } catch (
-//         err: any
-//       ) {
-//         setError(
-//           err.message
-//         );
-//       } finally {
-//         setSaving(false);
-//       }
-//     };
+const { refreshProfile } =
+    useProfile();
 
     const checkUsername =
   async (
@@ -861,8 +685,7 @@ const saveProgress = async () => {
             duration: data.duration,
             social: data.social,
 
-            city: data.city,
-            coords: data.coords,
+            location: data.location,
           },
 
           updated_at:
@@ -955,10 +778,8 @@ const finishOnboarding = async () => {
         duration: data.duration,
 
         social: data.social,
-
-        city: data.city,
-
-        coords: data.coords,
+        
+        location: data.location,
       },
 
       updated_at: new Date().toISOString(),
@@ -991,6 +812,8 @@ const finishOnboarding = async () => {
 
     toast.success("Welcome to Skyline ✨");
 
+    await refreshProfile();
+
     navigate("/dashboard");
   } catch (err: any) {
     toast.error(err.message);
@@ -1000,75 +823,6 @@ const finishOnboarding = async () => {
 };
 
 
-// const finishOnboarding =
-//   async () => {
-//     if (!user) return;
-
-//     try {
-//       setSaving(true);
-
-//       const { error } =
-//         await supabase
-//           .from("profiles")
-//           .update({
-//             username:
-//               data.username,
-
-//             full_name:
-//               data.fullName,
-
-//             bio: data.bio,
-
-//             avatar_url:
-//               data.avatar_url,
-
-//             onboarding_completed:
-//               true,
-
-//             onboarding_step:
-//               TOTAL_STEPS,
-
-//             onboarding_data: {
-//               goals:
-//                 data.goals,
-
-//               interests:
-//                 data.interests,
-
-//               vibe:
-//                 data.vibe,
-
-//               duration:
-//                 data.duration,
-
-//               social:
-//                 data.social,
-
-//               city:
-//                 data.city,
-
-//               coords:
-//                 data.coords,
-//             },
-
-//             updated_at:
-//               new Date().toISOString(),
-//           })
-//           .eq("id", user.id);
-
-//       if (error) throw error;
-
-//       toast.success(
-//         "Welcome to Skyline"
-//       );
-
-//       navigate ("/dashboard")
-//     } catch (err: any) {
-//       toast.error(err.message);
-//     } finally {
-//       setSaving(false);
-//     }
-//   };
 
       return {
     user,
@@ -1095,7 +849,7 @@ const finishOnboarding = async () => {
 
     setDuration,
 
-    setCity,
+    setLocation,
 
     setBio,
 

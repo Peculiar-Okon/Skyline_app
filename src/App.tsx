@@ -10,7 +10,8 @@ import VerifyResetOTP from "./Auth/resetPasswordverify.tsx";
 import CreateNewPassword from "./Auth/createNewpassword.tsx";
 import Onboarding from "./Auth/Onboarding.tsx";
 import DashboardLayout from "./Layouts/DashboardLayout.tsx";
-import { AuthProvider } from "./authContext.tsx";
+import { AuthProvider } from "./Context/authContext.tsx";
+import { ProfileProvider } from "./Context/profileContext.tsx";
 
 function App() {
   return (
@@ -138,6 +139,7 @@ function App() {
 </Route>
       </Routes>
       </AuthProvider>
+
     </BrowserRouter>
   );
 }

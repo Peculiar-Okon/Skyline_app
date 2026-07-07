@@ -83,8 +83,41 @@ export const POPULAR_CITIES = [
   "New York",
 ];
 
+export interface OnboardingData {
+  goals: string[];
+
+  interests: string[];
+
+  vibe: string;
+
+  duration: string;
+
+  social: string;
+
+  location: {
+    country: string;
+    state: string;
+    city: string;
+    district: string;
+    suburb: string;
+
+    lat: number;
+    lng: number;
+  } | null;
+
+  username: string;
+
+  fullName: string;
+
+  bio: string;
+
+  avatar_url: string;
+}
+
 // export interface OnboardingData {
 //   goals: string[];
+
+//   interests: string[];
 
 //   vibe: string;
 
@@ -101,35 +134,10 @@ export const POPULAR_CITIES = [
 
 //   username: string;
 
+//   fullName: string;  
+
 //   bio: string;
 
 //   avatar_url: string;
 // }
-
-export interface OnboardingData {
-  goals: string[];
-
-  interests: string[];
-
-  vibe: string;
-
-  duration: string;
-
-  social: string;
-
-  city: string;
-
-  coords: {
-    lat: number;
-    lng: number;
-  } | null;
-
-  username: string;
-
-  fullName: string;  
-
-  bio: string;
-
-  avatar_url: string;
-}
 

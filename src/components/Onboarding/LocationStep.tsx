@@ -3,9 +3,30 @@ import { motion } from "framer-motion";
 import { useTheme } from "../../Theme/themeContext";
 
 interface LocationStepProps {
-  city: string;
-  setCity: (city: string) => void;
+  location: {
+    country: string;
+    state: string;
+    city: string;
+    district: string;
+    suburb: string;
+    lat: number;
+    lng: number;
+  } | null;
+
+  setLocation: (
+    location: {
+      country: string;
+      state: string;
+      city: string;
+      district: string;
+      suburb: string;
+      lat: number;
+      lng: number;
+    } | null
+  ) => void;
+
   detectLocation: () => void;
+
   loadingLocation: boolean;
 }
 
@@ -20,9 +41,10 @@ const popularCities = [
   "Dubai",
 ];
 
+
 export default function LocationStep({
-  city,
-  setCity,
+  location,
+  setLocation,
   detectLocation,
   loadingLocation,
 }: LocationStepProps) {
@@ -126,10 +148,18 @@ export default function LocationStep({
           <input
             type="text"
             placeholder="Search for a city..."
-            value={city}
+           value={location?.city ?? ""}
             onChange={(e) =>
-              setCity(e.target.value)
-            }
+  setLocation({
+    country: location?.country ?? "",
+    state: location?.state ?? "",
+    city: e.target.value,
+    district: location?.district ?? "",
+    suburb: location?.suburb ?? "",
+    lat: location?.lat ?? 0,
+    lng: location?.lng ?? 0,
+  })
+}
             className={`w-full rounded-2xl border py-4 pl-12 pr-4 transition focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 ${
               darkMode
                 ? "bg-slate-900 border-slate-700 text-white placeholder:text-slate-500"
@@ -157,11 +187,19 @@ export default function LocationStep({
             <button
               key={place}
               type="button"
-              onClick={() =>
-                setCity(place)
-              }
+                onClick={() =>
+  setLocation({
+    country: location?.country ?? "",
+    state: location?.state ?? "",
+    city: place,
+    district: "",
+    suburb: "",
+    lat: location?.lat ?? 0,
+    lng: location?.lng ?? 0,
+  })
+}
               className={`rounded-full px-4 py-2 transition ${
-                city === place
+                location?.city === place
                   ? "bg-emerald-500 text-white"
                   : darkMode
                   ? "bg-slate-800 hover:bg-slate-700"

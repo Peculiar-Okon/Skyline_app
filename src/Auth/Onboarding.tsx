@@ -63,7 +63,7 @@ export default function Onboarding() {
     setDuration,
     setSocial,
 
-    setCity,
+    setLocation,
     detectLocation,
     loadingLocation,
 
@@ -130,8 +130,8 @@ export default function Onboarding() {
 
           {step === 4 && (
             <LocationStep
-              city={data.city}
-              setCity={setCity}
+              location={data.location}
+              setLocation={setLocation}
               detectLocation={detectLocation}
               loadingLocation={loadingLocation}
             />
@@ -165,7 +165,7 @@ export default function Onboarding() {
               vibe={data.vibe}
               duration={data.duration}
               social={data.social}
-              city={data.city}
+              location={data.location}
             />
           )}
         </div>
